@@ -1,11 +1,6 @@
 #ifndef UI_H_INCLUDED
 #define UI_H_INCLUDED
 
-#define MTOP if (MenuIndex==1) {MenuIndex=3;} else {MenuIndex-=1;}; break;
-#define MDOWN if (MenuIndex==3) {MenuIndex=1;} else {MenuIndex+=1;}; break;
-#define MLEFT
-#define MRIGHT
-
 using namespace std;
 
 enum ConsoleColor {
@@ -28,12 +23,11 @@ enum ConsoleColor {
 };
 
 const int status_len = 80;
-const int menu_size = 3;
+const int menu_size = 5;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // дескриптор консоли
 int MenuIndex;
-char menu_items[menu_size][20]={"Init", "View", "Save"};
-int esc_condition;
+char menu_items[menu_size][30]={"Init students' records", "View students' list", "Save students' records", "Process list", "Delete students' records"};
 char status_str[status_len] = "Use arrows for navigation, Enter for activation and Esc for exit.";
 
 
