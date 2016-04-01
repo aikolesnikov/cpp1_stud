@@ -1,8 +1,8 @@
 #ifndef UI_H_INCLUDED
 #define UI_H_INCLUDED
 
-#define MTOP if (MenuIndex==1) {MenuIndex=3;} else {MenuIndex-=1;};
-#define MDOWN if (MenuIndex==3) {MenuIndex=1;} else {MenuIndex+=1;};
+#define MTOP if (MenuIndex==1) {MenuIndex=3;} else {MenuIndex-=1;}; break;
+#define MDOWN if (MenuIndex==3) {MenuIndex=1;} else {MenuIndex+=1;}; break;
 #define MLEFT
 #define MRIGHT
 
@@ -27,23 +27,28 @@ enum ConsoleColor {
     White = 15
 };
 
+const int status_len = 80;
+const int menu_size = 3;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // дескриптор консоли
 int MenuIndex;
+char menu_items[menu_size][20]={"Init", "View", "Save"};
+int esc_condition;
+char status_str[status_len] = "Use arrows for navigation, Enter for activation and Esc for exit.";
+
 
 void GotoXY(int x, int y);
 void ShowHideCursor(int state);
 void PrintMenu (int MenuIndex);
-void PrintStatus();
-void ChooseAction()
+void PrintStatus(char *);
 
 
 //-----------------------------------------------------------------------------------'
 
-void PrintStatus(){
+void PrintStatus(char * str){
     GotoXY(1,24);
     SetConsoleTextAttribute(hConsole, (WORD) ((Black<< 4) | DarkGray)); // setting back standard colors
-    cout << "Use arrows for navigation, Enter for activation and Esc for exit.";
+    cout << str;
 }
 
 void PrintMenu (int MenuIndex){
@@ -51,14 +56,14 @@ void PrintMenu (int MenuIndex){
     system("cls");
     GotoXY(0,0);
 
-    for (int j=1; j<=3; ++j){
+    for (int j=1; j<=menu_size; ++j){
         if (j==MenuIndex) {
             SetConsoleTextAttribute(hConsole, (WORD) ((LightGray << 4) | Cyan));
         }
         else {
             SetConsoleTextAttribute(hConsole, (WORD) ((Black<< 4) | White));
         }
-        cout << "Menu" << j << endl;
+        cout << menu_items[j-1] << endl;
     }
 }
 
@@ -78,31 +83,6 @@ void ShowHideCursor(int state)
    SetConsoleCursorInfo(hConsole, &info);
 }
 
-void ChooseAction()
-{
-        int key_code = _getch();
-        if (key_code==27)
-            return;
-        else {
-            switch (key_code){
-                case 'w': MTOP      // w 119
-                case 'a': MLEFT     // a 97
-                case 's': MDOWN     // s 115
-                case 'd': MRIGHT    // d 100
-                case 13 :
-                    system("cls");
-                    cout << "You have chosen " << "Menu" << MenuIndex << endl;
-                    system("pause");
-                    break;
-                case 224:
-                    key_code = _getch();
-                    if ( key_code == 72) {MTOP}
-                    if ( key_code == 80) {MDOWN}
-                    if ( key_code == 75) {MLEFT}
-                    if ( key_code == 77) {MRIGHT}
-                }
-            }
-}
 
 
 #endif // UI_H_INCLUDED
