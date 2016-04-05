@@ -4,17 +4,28 @@
 #include <time.h>
 #include <iomanip>
 
-#include "process.h"
+
+#include "stud.h"
 #include "ui.h"
-#include "data.h"
-#include "custom.h"
 
 using namespace std;
+
+// global
+int students_ammount = 10;
+int students_init_flag = 0;
+STUD *pStArr;
+int MenuIndex = 0;
+HANDLE hConsole = NULL; // дескриптор консоли
+int esc_condition=0;
 
 
 int main() {
 
    srand(time(0));
+   // инициализация
+   hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+   pStArr = new STUD[students_ammount];
+   //
 
    esc_condition = 0;
    MenuIndex = 1;
